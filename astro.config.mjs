@@ -2,7 +2,7 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://dogbooks.org',
+  site: 'https://dogbooks.co',
   output: 'static',
   vite: {
     plugins: [tailwindcss()],

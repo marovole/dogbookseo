@@ -3,4 +3,4 @@ User-agent: *
 Allow: /
 
 # Sitemaps
-Sitemap: https://dogbooks.org/sitemap-index.xml
+Sitemap: https://dogbooks.co/sitemap-index.xml

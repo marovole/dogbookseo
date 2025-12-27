@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: 'Dogbooks',
-  url: 'https://dogbooks.org',
+  url: 'https://dogbooks.co',
   appUrl: 'https://dogbooks.io',
   defaultLocale: 'en',
   locales: ['en', 'zh-TW', 'hi', 'pt', 'es'] as const,
