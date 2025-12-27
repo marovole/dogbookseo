@@ -118,6 +118,12 @@ async function saveToCSV(topics: CollectedTopic[], region: Region): Promise<stri
   const filename = `${region}_${date}.csv`;
   const filepath = path.join(process.cwd(), 'data', 'raw', filename);
 
+  // Ensure directory exists
+  const dir = path.dirname(filepath);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+
   const headers = ['slug', 'region', 'category', 'locale_json', 'options', 'keywords', 'expirationDate', 'source'];
   const rows = topics.map((topic) => [
     topic.slug,
