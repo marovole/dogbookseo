@@ -103,6 +103,7 @@ export async function generate(): Promise<{ generated: number; skipped: number }
     console.log(`\n   📄 Processing: ${csvFile}`);
     const content = fs.readFileSync(path.join(rawDir, csvFile), 'utf-8');
     const rows = parseCSV(content);
+    console.log(`      Found ${rows.length} rows in CSV`);
 
     for (const row of rows) {
       const slug = row.slug;

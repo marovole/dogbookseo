@@ -78,7 +78,7 @@ export const regions: Record<Region, RegionConfig> = {
 
   taiwan_hk: {
     languages: ['zh-TW'],
-    searchLang: 'zh-TW',
+    searchLang: 'zh-hant',
     categories: [
       {
         name: 'Politics/Taiwan',
@@ -105,7 +105,7 @@ export const regions: Record<Region, RegionConfig> = {
 
   latam: {
     languages: ['pt', 'es'],
-    searchLang: 'pt',
+    searchLang: 'pt-br',
     categories: [
       {
         name: 'Sports/Football',
