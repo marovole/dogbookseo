@@ -24,7 +24,6 @@ function getLocalizedPath(locale: Locale): string {
     aria-haspopup="listbox"
     aria-expanded="false"
   >
-    <span class="text-base">{currentLang.flag}</span>
     <span class="hidden sm:inline">{currentLang.nativeName}</span>
     <svg class="w-4 h-4 opacity-60" fill="none" viewBox="0 0 24 24" stroke="currentColor">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
@@ -50,7 +49,6 @@ function getLocalizedPath(locale: Locale): string {
                   : 'hover:bg-[var(--color-surface-elevated)] text-[var(--color-paper)]'
               ]}
             >
-              <span class="text-base">{lang.flag}</span>
               <span>{lang.nativeName}</span>
               {isActive && (
                 <svg class="w-4 h-4 ml-auto" fill="currentColor" viewBox="0 0 20 20">
