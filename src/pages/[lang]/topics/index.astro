@@ -1,0 +1,106 @@
+---
+import Base from '@/layouts/Base.astro';
+import TopicCard from '@/components/TopicCard.astro';
+import { siteConfig, type Locale } from '@/config/site';
+import { t } from '@/i18n/ui';
+import { languageToRegions } from '@/i18n/languages';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  return siteConfig.locales.map((lang) => ({
+    params: { lang },
+  }));
+}
+
+const { lang } = Astro.params as { lang: Locale };
+
+const regions = languageToRegions[lang] || ['global'];
+const allTopics = await getCollection('topics');
+
+const topics = allTopics
+  .filter(topic => regions.includes(topic.data.region) && topic.data.locale[lang])
+  .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime());
+
+const categories = ['all', 'politics', 'economy', 'tech', 'entertainment', 'sports'] as const;
+---
+
+<Base title={t('topics.title', lang)} lang={lang}>
+  <section class="py-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h1 class="text-4xl sm:text-5xl font-bold mb-4">
+          {t('topics.title', lang)}
+        </h1>
+        <p class="text-xl text-[var(--color-paper)] opacity-70 max-w-2xl mx-auto">
+          {t('topics.subtitle', lang)}
+        </p>
+      </div>
+
+      <!-- Category Filter -->
+      <div class="flex flex-wrap justify-center gap-2 mb-12">
+        {categories.map((category) => (
+          <button
+            type="button"
+            data-category={category}
+            class:list={[
+              'px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 border',
+              'category-filter',
+              category === 'all' 
+                ? 'bg-[var(--color-accent)] text-[var(--color-ink)] border-transparent active' 
+                : 'bg-[var(--color-surface)] text-[var(--color-paper)] border-[var(--color-border)] hover:border-[var(--color-accent)]'
+            ]}
+          >
+            {category === 'all' ? t('topics.filter.all', lang) : t(`topics.filter.${category}`, lang)}
+          </button>
+        ))}
+      </div>
+
+      <!-- Topics Grid -->
+      {topics.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="topics-grid">
+          {topics.map((topic) => (
+            <div data-category={topic.data.category} class="topic-item">
+              <TopicCard topic={topic.data} locale={lang} />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-16">
+          <div class="text-6xl mb-4 opacity-30">📭</div>
+          <p class="text-xl text-[var(--color-paper)] opacity-70">
+            {t('topics.empty', lang)}
+          </p>
+        </div>
+      )}
+    </div>
+  </section>
+</Base>
+
+<script>
+  const filters = document.querySelectorAll('.category-filter');
+  const items = document.querySelectorAll('.topic-item');
+
+  filters.forEach(filter => {
+    filter.addEventListener('click', () => {
+      const category = filter.getAttribute('data-category');
+      
+      filters.forEach(f => {
+        f.classList.remove('bg-[var(--color-accent)]', 'text-[var(--color-ink)]', 'border-transparent', 'active');
+        f.classList.add('bg-[var(--color-surface)]', 'text-[var(--color-paper)]', 'border-[var(--color-border)]');
+      });
+      
+      filter.classList.remove('bg-[var(--color-surface)]', 'text-[var(--color-paper)]', 'border-[var(--color-border)]');
+      filter.classList.add('bg-[var(--color-accent)]', 'text-[var(--color-ink)]', 'border-transparent', 'active');
+      
+      items.forEach(item => {
+        const itemCategory = item.getAttribute('data-category');
+        if (category === 'all' || itemCategory === category) {
+          (item as HTMLElement).style.display = 'block';
+        } else {
+          (item as HTMLElement).style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

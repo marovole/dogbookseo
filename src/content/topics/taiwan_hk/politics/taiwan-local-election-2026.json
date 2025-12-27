@@ -1,0 +1,18 @@
+{
+  "slug": "taiwan-local-election-2026",
+  "region": "taiwan_hk",
+  "category": "politics",
+  "locale": {
+    "zh-TW": {
+      "title": "2026台灣地方選舉預測",
+      "question": "國民黨能否在2026年地方選舉中贏得多數席位？",
+      "description": "預測2026年台灣九合一地方選舉的結果，國民黨是否能夠獲得過半縣市長席位。"
+    }
+  },
+  "options": ["會", "不會"],
+  "keywords": ["台灣選舉", "2026選舉", "國民黨", "民進黨", "地方選舉"],
+  "status": "active",
+  "publishedAt": "2025-12-27",
+  "expirationDate": "2026-11-28T23:59:00Z",
+  "source": "中央社"
+}

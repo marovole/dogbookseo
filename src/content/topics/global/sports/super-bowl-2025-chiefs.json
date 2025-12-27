@@ -1,0 +1,18 @@
+{
+  "slug": "super-bowl-2025-chiefs",
+  "region": "global",
+  "category": "sports",
+  "locale": {
+    "en": {
+      "title": "Super Bowl 2025: Chiefs Dynasty",
+      "question": "Will the Kansas City Chiefs win Super Bowl LIX?",
+      "description": "Predict whether the Kansas City Chiefs will secure their third consecutive Super Bowl victory in 2025."
+    }
+  },
+  "options": ["Yes", "No"],
+  "keywords": ["Super Bowl", "NFL", "Kansas City Chiefs", "Patrick Mahomes", "2025"],
+  "status": "active",
+  "publishedAt": "2025-12-27",
+  "expirationDate": "2025-02-09T23:00:00Z",
+  "source": "ESPN"
+}

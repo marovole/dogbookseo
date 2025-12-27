@@ -1,0 +1,18 @@
+{
+  "slug": "india-vs-australia-t20-2025",
+  "region": "india",
+  "category": "sports",
+  "locale": {
+    "hi": {
+      "title": "भारत बनाम ऑस्ट्रेलिया T20 सीरीज़",
+      "question": "क्या भारत ऑस्ट्रेलिया के खिलाफ T20 सीरीज़ जीतेगा?",
+      "description": "भारत बनाम ऑस्ट्रेलिया T20 सीरीज़ के परिणाम की भविष्यवाणी करें।"
+    }
+  },
+  "options": ["हाँ", "नहीं"],
+  "keywords": ["भारत क्रिकेट", "T20 सीरीज़", "भारत बनाम ऑस्ट्रेलिया", "2025"],
+  "status": "active",
+  "publishedAt": "2025-12-27",
+  "expirationDate": "2025-01-30T18:00:00Z",
+  "source": "ESPN Cricinfo"
+}

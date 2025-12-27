@@ -1,12 +1,15 @@
 ---
-import { siteConfig } from '@/config/site';
+import { siteConfig, type Locale } from '@/config/site';
+import { t } from '@/i18n/ui';
 import CTA from './CTA.astro';
+import LanguageSwitcher from './LanguageSwitcher.astro';
 
 interface Props {
-  lang?: string;
+  lang?: Locale;
 }
 
 const { lang = 'en' } = Astro.props;
+const currentPath = Astro.url.pathname;
 ---
 
 <header class="fixed top-0 left-0 right-0 z-50 glass">
@@ -27,20 +30,22 @@ const { lang = 'en' } = Astro.props;
       </a>
 
       <!-- Navigation -->
-      <div class="flex items-center gap-6">
+      <div class="flex items-center gap-4">
         <a 
           href={`/${lang}/topics/`}
           class="text-sm font-medium text-[var(--color-paper)] opacity-80 hover:opacity-100 hover:text-[var(--color-accent)] transition-all duration-200"
         >
-          Topics
+          {t('nav.topics', lang)}
         </a>
+        
+        <LanguageSwitcher currentLocale={lang} currentPath={currentPath} />
         
         <CTA 
           href={siteConfig.appUrl} 
           external
           size="sm"
         >
-          Launch App
+          {t('nav.launchApp', lang)}
         </CTA>
       </div>
     </div>

@@ -1,0 +1,99 @@
+---
+import type { Locale } from '@/config/site';
+import type { Topic } from '@/content/config';
+import { t } from '@/i18n/ui';
+import CTA from './CTA.astro';
+
+interface Props {
+  topic: Topic;
+  locale: Locale;
+}
+
+const { topic, locale } = Astro.props;
+
+const localeContent = topic.locale[locale] || topic.locale['en'] || Object.values(topic.locale)[0];
+const isActive = topic.status === 'active';
+
+const categoryColors: Record<string, string> = {
+  politics: 'bg-rose-500/20 text-rose-400 border-rose-500/30',
+  economy: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+  tech: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+  entertainment: 'bg-purple-500/20 text-purple-400 border-purple-500/30',
+  sports: 'bg-orange-500/20 text-orange-400 border-orange-500/30',
+};
+
+const categoryColor = categoryColors[topic.category] || categoryColors.tech;
+---
+
+<article class="group relative p-6 rounded-xl bg-[var(--color-surface)] border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-all duration-300 hover:transform hover:scale-[1.02]">
+  <!-- Status Badge -->
+  <div class="absolute top-4 right-4">
+    <span class:list={[
+      'inline-flex items-center gap-1.5 px-2 py-1 rounded-full text-xs font-medium',
+      isActive 
+        ? 'bg-[var(--color-accent)]/20 text-[var(--color-accent)]' 
+        : 'bg-zinc-500/20 text-zinc-400'
+    ]}>
+      <span class:list={[
+        'w-1.5 h-1.5 rounded-full',
+        isActive ? 'bg-[var(--color-accent)] animate-pulse' : 'bg-zinc-400'
+      ]}></span>
+      {isActive ? t('topic.status.active', locale) : t('topic.status.closed', locale)}
+    </span>
+  </div>
+
+  <!-- Category -->
+  <div class="mb-4">
+    <span class:list={[
+      'inline-flex px-2.5 py-1 rounded-md text-xs font-semibold uppercase tracking-wider border',
+      categoryColor
+    ]}>
+      {t(`topics.filter.${topic.category}`, locale)}
+    </span>
+  </div>
+
+  <!-- Title -->
+  <h3 class="text-xl font-bold mb-3 pr-16 line-clamp-2 group-hover:text-[var(--color-accent)] transition-colors">
+    {localeContent.title}
+  </h3>
+
+  <!-- Question -->
+  <p class="text-[var(--color-paper)] opacity-70 mb-4 line-clamp-2">
+    {localeContent.question}
+  </p>
+
+  <!-- Options Preview -->
+  <div class="flex gap-2 mb-6">
+    {topic.options.map((option, index) => (
+      <span class:list={[
+        'flex-1 text-center py-2 rounded-lg text-sm font-medium border',
+        index === 0 
+          ? 'border-[var(--color-accent)]/30 text-[var(--color-accent)]' 
+          : 'border-[var(--color-border)] text-[var(--color-paper)] opacity-70'
+      ]}>
+        {option}
+      </span>
+    ))}
+  </div>
+
+  <!-- CTA -->
+  <CTA 
+    href={`/${locale}/topics/${topic.slug}`}
+    variant="secondary"
+    size="sm"
+    class="w-full"
+  >
+    {t('topic.predict', locale)}
+  </CTA>
+
+  <!-- Expiration -->
+  {isActive && (
+    <p class="mt-4 text-xs text-[var(--color-paper)] opacity-50 text-center">
+      {t('topic.expires', locale)}: {new Date(topic.expirationDate).toLocaleDateString(locale, { 
+        month: 'short', 
+        day: 'numeric',
+        year: 'numeric'
+      })}
+    </p>
+  )}
+</article>

@@ -1,0 +1,171 @@
+---
+import Base from '@/layouts/Base.astro';
+import CTA from '@/components/CTA.astro';
+import { siteConfig, type Locale } from '@/config/site';
+import { t } from '@/i18n/ui';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const topics = await getCollection('topics');
+  const paths: { params: { lang: Locale; slug: string }; props: { topic: any } }[] = [];
+
+  for (const topic of topics) {
+    const availableLocales = Object.keys(topic.data.locale) as Locale[];
+    
+    for (const locale of availableLocales) {
+      if (siteConfig.locales.includes(locale)) {
+        paths.push({
+          params: { lang: locale, slug: topic.data.slug },
+          props: { topic: topic.data },
+        });
+      }
+    }
+  }
+
+  return paths;
+}
+
+interface Props {
+  topic: any;
+}
+
+const { lang, slug } = Astro.params as { lang: Locale; slug: string };
+const { topic } = Astro.props;
+
+const localeContent = topic.locale[lang];
+const isActive = topic.status === 'active';
+
+const categoryColors: Record<string, string> = {
+  politics: 'bg-rose-500/20 text-rose-400',
+  economy: 'bg-emerald-500/20 text-emerald-400',
+  tech: 'bg-blue-500/20 text-blue-400',
+  entertainment: 'bg-purple-500/20 text-purple-400',
+  sports: 'bg-orange-500/20 text-orange-400',
+};
+---
+
+<Base title={localeContent.title} description={localeContent.description} lang={lang}>
+  <article class="py-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Breadcrumb -->
+      <nav class="mb-8 text-sm">
+        <ol class="flex items-center gap-2 text-[var(--color-paper)] opacity-60">
+          <li>
+            <a href={`/${lang}/`} class="hover:text-[var(--color-accent)] transition-colors">
+              {t('nav.home', lang)}
+            </a>
+          </li>
+          <li>/</li>
+          <li>
+            <a href={`/${lang}/topics/`} class="hover:text-[var(--color-accent)] transition-colors">
+              {t('nav.topics', lang)}
+            </a>
+          </li>
+          <li>/</li>
+          <li class="text-[var(--color-paper)]">{localeContent.title}</li>
+        </ol>
+      </nav>
+
+      <!-- Header -->
+      <header class="mb-12">
+        <div class="flex flex-wrap items-center gap-3 mb-6">
+          <!-- Category Badge -->
+          <span class:list={[
+            'px-3 py-1 rounded-lg text-sm font-semibold',
+            categoryColors[topic.category]
+          ]}>
+            {t(`topics.filter.${topic.category}`, lang)}
+          </span>
+          
+          <!-- Status Badge -->
+          <span class:list={[
+            'inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-sm font-medium',
+            isActive 
+              ? 'bg-[var(--color-accent)]/20 text-[var(--color-accent)]' 
+              : 'bg-zinc-500/20 text-zinc-400'
+          ]}>
+            <span class:list={[
+              'w-2 h-2 rounded-full',
+              isActive ? 'bg-[var(--color-accent)] animate-pulse' : 'bg-zinc-400'
+            ]}></span>
+            {isActive ? t('topic.status.active', lang) : t('topic.status.closed', lang)}
+          </span>
+        </div>
+
+        <h1 class="text-4xl sm:text-5xl font-bold mb-6 leading-tight">
+          {localeContent.title}
+        </h1>
+
+        <p class="text-xl text-[var(--color-paper)] opacity-80 mb-8">
+          {localeContent.description}
+        </p>
+
+        <!-- Meta -->
+        <div class="flex flex-wrap gap-6 text-sm text-[var(--color-paper)] opacity-60">
+          <div>
+            <span class="font-medium">{t('topic.expires', lang)}:</span>
+            {new Date(topic.expirationDate).toLocaleDateString(lang, {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </div>
+          <div>
+            <span class="font-medium">Source:</span> {topic.source}
+          </div>
+        </div>
+      </header>
+
+      <!-- Question Card -->
+      <div class="p-8 rounded-2xl bg-[var(--color-surface)] border border-[var(--color-border)] mb-12">
+        <h2 class="text-2xl sm:text-3xl font-bold mb-8 text-center">
+          {localeContent.question}
+        </h2>
+
+        <!-- Options -->
+        <div class="grid grid-cols-2 gap-4 mb-8">
+          {topic.options.map((option: string, index: number) => (
+            <div class:list={[
+              'p-6 rounded-xl text-center border-2 transition-all duration-200 hover:scale-[1.02] cursor-pointer',
+              index === 0 
+                ? 'border-[var(--color-accent)] bg-[var(--color-accent)]/10' 
+                : 'border-[var(--color-border)] hover:border-[var(--color-warning)] hover:bg-[var(--color-warning)]/10'
+            ]}>
+              <span class="text-2xl font-bold">{option}</span>
+            </div>
+          ))}
+        </div>
+
+        <!-- CTA -->
+        <div class="text-center">
+          <CTA href={siteConfig.appUrl} size="lg" external class="animate-pulse-glow">
+            {t('topic.predict', lang)}
+          </CTA>
+        </div>
+      </div>
+
+      <!-- Keywords -->
+      {topic.keywords?.length > 0 && (
+        <div class="mb-12">
+          <h3 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-accent)] mb-4">
+            Related Topics
+          </h3>
+          <div class="flex flex-wrap gap-2">
+            {topic.keywords.map((keyword: string) => (
+              <span class="px-3 py-1 rounded-full bg-[var(--color-surface-elevated)] border border-[var(--color-border)] text-sm">
+                {keyword}
+              </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <!-- Back Link -->
+      <div class="text-center">
+        <CTA href={`/${lang}/topics/`} variant="ghost">
+          ← {t('cta.viewAll', lang)}
+        </CTA>
+      </div>
+    </div>
+  </article>
+</Base>

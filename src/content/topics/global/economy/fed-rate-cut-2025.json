@@ -1,0 +1,18 @@
+{
+  "slug": "fed-rate-cut-2025",
+  "region": "global",
+  "category": "economy",
+  "locale": {
+    "en": {
+      "title": "Fed Interest Rate Decision",
+      "question": "Will the Federal Reserve cut interest rates in Q1 2025?",
+      "description": "Predict whether the US Federal Reserve will announce an interest rate cut in the first quarter of 2025."
+    }
+  },
+  "options": ["Yes", "No"],
+  "keywords": ["Federal Reserve", "Interest Rates", "Economy", "US Economy", "2025"],
+  "status": "active",
+  "publishedAt": "2025-12-27",
+  "expirationDate": "2025-03-31T23:59:00Z",
+  "source": "Bloomberg"
+}
