@@ -1,0 +1,51 @@
+---
+import { siteConfig } from '@/config/site';
+import CTA from './CTA.astro';
+
+interface Props {
+  lang?: string;
+}
+
+const { lang = 'en' } = Astro.props;
+---
+
+<header class="fixed top-0 left-0 right-0 z-50 glass">
+  <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <a 
+        href={`/${lang}/`} 
+        class="flex items-center gap-3 group"
+        aria-label="Dogbooks Home"
+      >
+        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-warning)] flex items-center justify-center transform group-hover:scale-105 transition-transform duration-200">
+          <span class="text-[var(--color-ink)] font-bold text-xl font-[family-name:var(--font-display)]">D</span>
+        </div>
+        <span class="text-xl font-bold font-[family-name:var(--font-display)] tracking-tight hidden sm:block">
+          Dogbooks
+        </span>
+      </a>
+
+      <!-- Navigation -->
+      <div class="flex items-center gap-6">
+        <a 
+          href={`/${lang}/topics/`}
+          class="text-sm font-medium text-[var(--color-paper)] opacity-80 hover:opacity-100 hover:text-[var(--color-accent)] transition-all duration-200"
+        >
+          Topics
+        </a>
+        
+        <CTA 
+          href={siteConfig.appUrl} 
+          external
+          size="sm"
+        >
+          Launch App
+        </CTA>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<!-- Spacer for fixed header -->
+<div class="h-16"></div>

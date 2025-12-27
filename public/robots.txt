@@ -1,0 +1,6 @@
+# Dogbook SEO Site
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://dogbooks.org/sitemap-index.xml

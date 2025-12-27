@@ -1,0 +1,85 @@
+---
+import { siteConfig } from '@/config/site';
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="relative z-10 border-t border-[var(--color-border)] mt-auto">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Brand -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-warning)] flex items-center justify-center">
+            <span class="text-[var(--color-ink)] font-bold font-[family-name:var(--font-display)]">D</span>
+          </div>
+          <span class="text-lg font-bold font-[family-name:var(--font-display)]">Dogbooks</span>
+        </div>
+        <p class="text-sm text-[var(--color-paper)] opacity-60 max-w-xs">
+          Predict the future with the Minority Game. Be the contrarian.
+        </p>
+      </div>
+
+      <!-- Links -->
+      <div class="space-y-4">
+        <h4 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-accent)]">
+          Explore
+        </h4>
+        <ul class="space-y-2">
+          <li>
+            <a 
+              href="/en/topics/" 
+              class="text-sm text-[var(--color-paper)] opacity-70 hover:opacity-100 hover:text-[var(--color-accent)] transition-colors"
+            >
+              All Topics
+            </a>
+          </li>
+          <li>
+            <a 
+              href={siteConfig.appUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-sm text-[var(--color-paper)] opacity-70 hover:opacity-100 hover:text-[var(--color-accent)] transition-colors"
+            >
+              Play the Game
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- App Link -->
+      <div class="space-y-4">
+        <h4 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-accent)]">
+          Get Started
+        </h4>
+        <a 
+          href={siteConfig.appUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--color-surface-elevated)] border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors group"
+        >
+          <span class="text-sm font-medium">Launch App</span>
+          <svg 
+            class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" 
+            fill="none" 
+            viewBox="0 0 24 24" 
+            stroke="currentColor"
+          >
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="mt-12 pt-8 border-t border-[var(--color-border)] flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-xs text-[var(--color-paper)] opacity-50">
+        &copy; {currentYear} Dogbooks. All rights reserved.
+      </p>
+      <div class="flex items-center gap-1 text-xs text-[var(--color-paper)] opacity-50">
+        <span>Powered by</span>
+        <span class="text-[var(--color-accent)]">Minority Game</span>
+      </div>
+    </div>
+  </div>
+</footer>

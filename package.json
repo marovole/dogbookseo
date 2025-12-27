@@ -1,0 +1,26 @@
+{
+  "name": "dogbook-seo",
+  "version": "1.0.0",
+  "description": "Dogbook SEO Landing Pages - Prediction Market Topics",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "collect": "tsx scripts/collect.ts",
+    "generate": "tsx scripts/generate.ts",
+    "pipeline": "tsx scripts/pipeline.ts"
+  },
+  "keywords": ["astro", "seo", "prediction-market"],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@tailwindcss/vite": "^4.1.18",
+    "astro": "^5.16.6",
+    "tailwindcss": "^4.1.18"
+  },
+  "devDependencies": {
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}

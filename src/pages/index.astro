@@ -1,0 +1,21 @@
+---
+import { siteConfig } from '@/config/site';
+
+const redirectUrl = `/${siteConfig.defaultLocale}/`;
+---
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content={`0;url=${redirectUrl}`} />
+    <link rel="canonical" href={redirectUrl} />
+    <title>Redirecting...</title>
+  </head>
+  <body>
+    <p>Redirecting to <a href={redirectUrl}>{redirectUrl}</a>...</p>
+    <script define:vars={{ redirectUrl }}>
+      window.location.href = redirectUrl;
+    </script>
+  </body>
+</html>
