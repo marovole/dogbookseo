@@ -18,7 +18,7 @@ jobs:
     
     permissions:
       contents: write
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -35,10 +35,19 @@ jobs:
         run: npm ci
 
       - name: Run pipeline (collect + generate)
-        run: npm run pipeline
+        id: pipeline
+        run: |
+          npm run pipeline 2>&1 | tee pipeline.log
+          echo "status=$?" >> $GITHUB_OUTPUT
+        continue-on-error: true
+
+      - name: Verify pipeline output
+        id: verify
+        run: npm run verify 2>&1 | tee verify.log
         continue-on-error: true
 
       - name: Build site
+        id: build
         run: npm run build
 
       - name: Check for changes
@@ -47,8 +56,12 @@ jobs:
           git add -A
           if git diff --staged --quiet; then
             echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "change_count=0" >> $GITHUB_OUTPUT
           else
+            # Count new topic files
+            TOPIC_COUNT=$(git diff --staged --name-only | grep "src/content/topics" | wc -l)
             echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "change_count=$TOPIC_COUNT" >> $GITHUB_OUTPUT
           fi
 
       - name: Commit and push
@@ -56,16 +69,58 @@ jobs:
         run: |
           git config user.email "action@github.com"
           git config user.name "GitHub Action"
-          git commit -m "chore: daily topics $(date +%Y-%m-%d)"
+          git commit -m "chore: daily topics $(date +%Y-%m-%d) - ${{ steps.changes.outputs.change_count }} new topics"
           git push
 
-      - name: Summary
+      - name: Summary Report
+        if: always()
         run: |
-          echo "## Pipeline Summary" >> $GITHUB_STEP_SUMMARY
-          echo "- Date: $(date +%Y-%m-%d)" >> $GITHUB_STEP_SUMMARY
-          echo "- Topics generated: Check pipeline output above" >> $GITHUB_STEP_SUMMARY
+          echo "## 🤖 Daily Pipeline Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### ⏰ Execution Time" >> $GITHUB_STEP_SUMMARY
+          echo "- Date: $(date -u +%Y-%m-%d\ %H:%M:%S\ UTC)" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          
+          echo "### 📊 Pipeline Status" >> $GITHUB_STEP_SUMMARY
+          if [ "${{ steps.pipeline.outcome }}" == "success" ]; then
+            echo "- Collect & Generate: ✅ Success" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- Collect & Generate: ⚠️ Completed with warnings" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ steps.build.outcome }}" == "success" ]; then
+            echo "- Build: ✅ Success" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- Build: ❌ Failed" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          if [ "${{ steps.verify.outcome }}" == "success" ]; then
+            echo "- Verify: ✅ All checks passed" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "- Verify: ⚠️ Check logs for details" >> $GITHUB_STEP_SUMMARY
+          fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📝 Content Changes" >> $GITHUB_STEP_SUMMARY
           if [ "${{ steps.changes.outputs.has_changes }}" == "true" ]; then
             echo "- Status: ✅ New content committed" >> $GITHUB_STEP_SUMMARY
+            echo "- New files: ${{ steps.changes.outputs.change_count }}" >> $GITHUB_STEP_SUMMARY
           else
-            echo "- Status: ℹ️ No new content" >> $GITHUB_STEP_SUMMARY
+            echo "- Status: ℹ️ No new topics generated" >> $GITHUB_STEP_SUMMARY
           fi
+          
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📌 Next Steps" >> $GITHUB_STEP_SUMMARY
+          echo "- Monitor Brave API usage: https://api-dashboard.search.brave.com/" >> $GITHUB_STEP_SUMMARY
+          echo "- View deployment: https://dogbooks.org" >> $GITHUB_STEP_SUMMARY
+          echo "- Check logs: See 'Run pipeline' step above" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pipeline-logs-${{ github.run_id }}
+          path: |
+            pipeline.log
+            verify.log
+          retention-days: 7
