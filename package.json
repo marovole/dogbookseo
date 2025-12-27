@@ -11,10 +11,15 @@
     "generate": "tsx scripts/generate.ts",
     "pipeline": "tsx scripts/pipeline.ts"
   },
-  "keywords": ["astro", "seo", "prediction-market"],
+  "keywords": [
+    "astro",
+    "seo",
+    "prediction-market"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@astrojs/sitemap": "^3.6.0",
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.16.6",
     "tailwindcss": "^4.1.18"
