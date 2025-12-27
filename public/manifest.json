@@ -1,0 +1,26 @@
+{
+  "name": "Dogbooks",
+  "short_name": "Dogbooks",
+  "description": "Predict the future with Minority Game - Dogbooks",
+  "start_url": "/en/",
+  "display": "standalone",
+  "background_color": "#0A0A0F",
+  "theme_color": "#00F5D4",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["games", "entertainment"],
+  "lang": "en"
+}

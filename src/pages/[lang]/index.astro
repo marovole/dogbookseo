@@ -2,6 +2,7 @@
 import Base from '@/layouts/Base.astro';
 import CTA from '@/components/CTA.astro';
 import TopicCard from '@/components/TopicCard.astro';
+import StructuredData from '@/components/StructuredData.astro';
 import { siteConfig, type Locale } from '@/config/site';
 import { t } from '@/i18n/ui';
 import { languageToRegions } from '@/i18n/languages';
@@ -24,7 +25,11 @@ const topics = allTopics
   .slice(0, 12);
 ---
 
-<Base title={t('nav.home', lang)} lang={lang}>
+<Base title={t('nav.home', lang)} lang={lang} availableLanguages={siteConfig.locales as unknown as Locale[]}>
+  <!-- Structured Data -->
+  <StructuredData type="WebSite" lang={lang} />
+  <StructuredData type="Organization" />
+  
   <!-- Hero Section -->
   <section class="relative min-h-[80vh] flex items-center overflow-hidden">
     <!-- Background Grid -->

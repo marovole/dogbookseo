@@ -2,5 +2,12 @@
 User-agent: *
 Allow: /
 
+# Disallow internal paths
+Disallow: /api/
+Disallow: /_astro/
+
+# Crawl-delay for politeness
+Crawl-delay: 1
+
 # Sitemaps
 Sitemap: https://dogbooks.co/sitemap-index.xml

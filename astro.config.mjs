@@ -5,6 +5,10 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://dogbooks.co',
   output: 'static',
+  compressHTML: true,
+  build: {
+    inlineStylesheets: 'auto',
+  },
   integrations: [
     sitemap({
       i18n: {

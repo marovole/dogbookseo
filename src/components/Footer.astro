@@ -1,6 +1,12 @@
 ---
-import { siteConfig } from '@/config/site';
+import { siteConfig, type Locale } from '@/config/site';
+import { t } from '@/i18n/ui';
 
+interface Props {
+  lang?: Locale;
+}
+
+const { lang = 'en' } = Astro.props;
 const currentYear = new Date().getFullYear();
 ---
 
@@ -16,22 +22,22 @@ const currentYear = new Date().getFullYear();
           <span class="text-lg font-bold font-[family-name:var(--font-display)]">Dogbooks</span>
         </div>
         <p class="text-sm text-[var(--color-paper)] opacity-60 max-w-xs">
-          Predict the future with the Minority Game. Be the contrarian.
+          {t('footer.tagline', lang)}
         </p>
       </div>
 
       <!-- Links -->
       <div class="space-y-4">
         <h4 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-accent)]">
-          Explore
+          {t('footer.explore', lang)}
         </h4>
         <ul class="space-y-2">
           <li>
             <a 
-              href="/en/topics/" 
+              href={`/${lang}/topics/`}
               class="text-sm text-[var(--color-paper)] opacity-70 hover:opacity-100 hover:text-[var(--color-accent)] transition-colors"
             >
-              All Topics
+              {t('nav.topics', lang)}
             </a>
           </li>
           <li>
@@ -41,7 +47,7 @@ const currentYear = new Date().getFullYear();
               rel="noopener noreferrer"
               class="text-sm text-[var(--color-paper)] opacity-70 hover:opacity-100 hover:text-[var(--color-accent)] transition-colors"
             >
-              Play the Game
+              {t('cta.play', lang)}
             </a>
           </li>
         </ul>
@@ -50,7 +56,7 @@ const currentYear = new Date().getFullYear();
       <!-- App Link -->
       <div class="space-y-4">
         <h4 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-accent)]">
-          Get Started
+          {t('footer.getStarted', lang)}
         </h4>
         <a 
           href={siteConfig.appUrl}
@@ -58,7 +64,7 @@ const currentYear = new Date().getFullYear();
           rel="noopener noreferrer"
           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--color-surface-elevated)] border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors group"
         >
-          <span class="text-sm font-medium">Launch App</span>
+          <span class="text-sm font-medium">{t('nav.launchApp', lang)}</span>
           <svg 
             class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" 
             fill="none" 
@@ -74,10 +80,10 @@ const currentYear = new Date().getFullYear();
     <!-- Bottom Bar -->
     <div class="mt-12 pt-8 border-t border-[var(--color-border)] flex flex-col sm:flex-row items-center justify-between gap-4">
       <p class="text-xs text-[var(--color-paper)] opacity-50">
-        &copy; {currentYear} Dogbooks. All rights reserved.
+        &copy; {currentYear} Dogbooks. {t('footer.rights', lang)}
       </p>
       <div class="flex items-center gap-1 text-xs text-[var(--color-paper)] opacity-50">
-        <span>Powered by</span>
+        <span>{t('footer.poweredBy', lang)}</span>
         <span class="text-[var(--color-accent)]">Minority Game</span>
       </div>
     </div>

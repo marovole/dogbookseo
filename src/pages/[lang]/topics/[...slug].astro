@@ -1,13 +1,15 @@
 ---
 import Base from '@/layouts/Base.astro';
 import CTA from '@/components/CTA.astro';
+import StructuredData from '@/components/StructuredData.astro';
 import { siteConfig, type Locale } from '@/config/site';
 import { t } from '@/i18n/ui';
 import { getCollection } from 'astro:content';
+import type { Topic } from '@/content/config';
 
 export async function getStaticPaths() {
   const topics = await getCollection('topics');
-  const paths: { params: { lang: Locale; slug: string }; props: { topic: any } }[] = [];
+  const paths: { params: { lang: Locale; slug: string }; props: { topic: Topic } }[] = [];
 
   for (const topic of topics) {
     const availableLocales = Object.keys(topic.data.locale) as Locale[];
@@ -26,7 +28,7 @@ export async function getStaticPaths() {
 }
 
 interface Props {
-  topic: any;
+  topic: Topic;
 }
 
 const { lang, slug } = Astro.params as { lang: Locale; slug: string };
@@ -34,6 +36,15 @@ const { topic } = Astro.props;
 
 const localeContent = topic.locale[lang];
 const isActive = topic.status === 'active';
+const availableLanguages = Object.keys(topic.locale).filter(l => 
+  siteConfig.locales.includes(l as Locale)
+) as Locale[];
+
+const breadcrumbs = [
+  { name: t('nav.home', lang), url: `${siteConfig.url}/${lang}/` },
+  { name: t('nav.topics', lang), url: `${siteConfig.url}/${lang}/topics/` },
+  { name: localeContent.title, url: `${siteConfig.url}/${lang}/topics/${topic.slug}` },
+];
 
 const categoryColors: Record<string, string> = {
   politics: 'bg-rose-500/20 text-rose-400',
@@ -44,7 +55,31 @@ const categoryColors: Record<string, string> = {
 };
 ---
 
-<Base title={localeContent.title} description={localeContent.description} lang={lang}>
+<Base 
+  title={localeContent.title} 
+  description={localeContent.description} 
+  lang={lang}
+  slug={`topics/${topic.slug}`}
+  type="article"
+  publishedAt={topic.publishedAt}
+  image={topic.image}
+  availableLanguages={availableLanguages}
+  category={topic.category}
+>
+  <!-- Structured Data -->
+  <StructuredData 
+    type="Article"
+    title={localeContent.title}
+    description={localeContent.description}
+    publishedAt={topic.publishedAt}
+    image={topic.image}
+    lang={lang}
+    slug={`topics/${topic.slug}`}
+    category={topic.category}
+    keywords={topic.keywords}
+  />
+  <StructuredData type="BreadcrumbList" breadcrumbs={breadcrumbs} />
+  
   <article class="py-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Breadcrumb -->

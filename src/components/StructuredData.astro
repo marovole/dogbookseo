@@ -1,0 +1,167 @@
+---
+import { siteConfig, type Locale } from '@/config/site';
+
+type SchemaType = 'WebSite' | 'Article' | 'BreadcrumbList' | 'Organization' | 'FAQPage';
+
+interface BreadcrumbItem {
+  name: string;
+  url: string;
+}
+
+interface FAQItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  type: SchemaType;
+  // WebSite props
+  searchUrl?: string;
+  // Article props
+  title?: string;
+  description?: string;
+  publishedAt?: string;
+  modifiedAt?: string;
+  image?: string;
+  lang?: Locale;
+  slug?: string;
+  category?: string;
+  keywords?: string[];
+  // Breadcrumb props
+  breadcrumbs?: BreadcrumbItem[];
+  // FAQ props
+  faqs?: FAQItem[];
+}
+
+const {
+  type,
+  searchUrl,
+  title,
+  description,
+  publishedAt,
+  modifiedAt,
+  image,
+  lang = 'en',
+  slug,
+  category,
+  keywords = [],
+  breadcrumbs = [],
+  faqs = [],
+} = Astro.props;
+
+const canonicalUrl = slug 
+  ? `${siteConfig.url}/${lang}/${slug}` 
+  : `${siteConfig.url}/${lang}`;
+
+function getSchema() {
+  switch (type) {
+    case 'WebSite':
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: siteConfig.name,
+        url: siteConfig.url,
+        description: 'Predict the future with Minority Game - Dogbooks',
+        inLanguage: lang,
+        potentialAction: searchUrl ? {
+          '@type': 'SearchAction',
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: searchUrl,
+          },
+          'query-input': 'required name=search_term_string',
+        } : undefined,
+        publisher: {
+          '@type': 'Organization',
+          name: siteConfig.name,
+          url: siteConfig.url,
+          logo: {
+            '@type': 'ImageObject',
+            url: `${siteConfig.url}/favicon.svg`,
+          },
+        },
+      };
+
+    case 'Article':
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'Article',
+        headline: title,
+        description: description,
+        image: image || `${siteConfig.url}/og-default.png`,
+        datePublished: publishedAt,
+        dateModified: modifiedAt || publishedAt,
+        inLanguage: lang,
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': canonicalUrl,
+        },
+        author: {
+          '@type': 'Organization',
+          name: siteConfig.name,
+          url: siteConfig.url,
+        },
+        publisher: {
+          '@type': 'Organization',
+          name: siteConfig.name,
+          url: siteConfig.url,
+          logo: {
+            '@type': 'ImageObject',
+            url: `${siteConfig.url}/favicon.svg`,
+          },
+        },
+        articleSection: category,
+        keywords: keywords.join(', '),
+      };
+
+    case 'BreadcrumbList':
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: breadcrumbs.map((item, index) => ({
+          '@type': 'ListItem',
+          position: index + 1,
+          name: item.name,
+          item: item.url,
+        })),
+      };
+
+    case 'Organization':
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: siteConfig.name,
+        url: siteConfig.url,
+        logo: {
+          '@type': 'ImageObject',
+          url: `${siteConfig.url}/favicon.svg`,
+        },
+        sameAs: [],
+      };
+
+    case 'FAQPage':
+      return {
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: faqs.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+      };
+
+    default:
+      return null;
+  }
+}
+
+const schema = getSchema();
+const cleanSchema = schema ? JSON.parse(JSON.stringify(schema, (_, v) => v === undefined ? undefined : v)) : null;
+---
+
+{cleanSchema && (
+  <script type="application/ld+json" set:html={JSON.stringify(cleanSchema, null, 0)} />
+)}
