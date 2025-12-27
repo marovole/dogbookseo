@@ -1,15 +1,5 @@
-export type Region = 'global' | 'india' | 'taiwan_hk' | 'latam';
-export type Category = 'politics' | 'economy' | 'tech' | 'entertainment' | 'sports';
-
-export interface RegionConfig {
-  languages: string[];
-  searchLang: string;
-  categories: {
-    name: string;
-    category: Category;
-    queries: string[];
-  }[];
-}
+import type { Region, Category, RegionConfig } from './types';
+export type { Region, Category } from './types';
 
 export const regions: Record<Region, RegionConfig> = {
   global: {

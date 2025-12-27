@@ -1,3 +1,6 @@
+import type { GeneratedTopic } from './types';
+export type { GeneratedTopic } from './types';
+
 interface ChatMessage {
   role: 'system' | 'user' | 'assistant';
   content: string;
@@ -11,17 +14,21 @@ interface ChutesResponse {
   }[];
 }
 
-export interface GeneratedTopic {
-  slug: string;
-  title: string;
-  question: string;
-  description: string;
-  options: [string, string];
-  keywords: string[];
-  expirationDate: string;
-  category: string;
-}
+/** Language code to display name mapping */
+const LANGUAGE_NAMES: Record<string, string> = {
+  en: 'English',
+  hi: 'Hindi',
+  'zh-TW': 'Traditional Chinese',
+  pt: 'Portuguese',
+  es: 'Spanish',
+};
 
+/**
+ * Send a chat completion request to the Chutes LLM API
+ * @param messages - Array of chat messages
+ * @param jsonMode - Whether to request JSON formatted response
+ * @returns The assistant's response content
+ */
 export async function chatCompletion(
   messages: ChatMessage[],
   jsonMode: boolean = true
@@ -57,31 +64,31 @@ export async function chatCompletion(
   return data.choices[0]?.message?.content || '';
 }
 
+/**
+ * Generate a prediction topic from news content
+ * @param newsTitle - Title of the news article
+ * @param newsDescription - Description/summary of the news
+ * @param category - Topic category
+ * @param targetLanguage - Language code for generated content
+ * @returns Generated topic or null if generation fails
+ */
 export async function generateTopicFromNews(
   newsTitle: string,
   newsDescription: string,
   category: string,
   targetLanguage: string
 ): Promise<GeneratedTopic | null> {
-  const languageNames: Record<string, string> = {
-    en: 'English',
-    hi: 'Hindi',
-    'zh-TW': 'Traditional Chinese',
-    pt: 'Portuguese',
-    es: 'Spanish',
-  };
-
-  const langName = languageNames[targetLanguage] || 'English';
+  const languageDisplayName = LANGUAGE_NAMES[targetLanguage] || 'English';
 
   const systemPrompt = `You are a prediction market topic generator. Given a news headline, create a compelling binary prediction question that can be answered with Yes/No.
 
 Output JSON format:
 {
   "slug": "url-safe-slug-in-english",
-  "title": "Topic title in ${langName}",
-  "question": "Binary prediction question in ${langName} that can be answered Yes/No",
-  "description": "SEO description in ${langName} (max 160 chars)",
-  "options": ["Yes option in ${langName}", "No option in ${langName}"],
+  "title": "Topic title in ${languageDisplayName}",
+  "question": "Binary prediction question in ${languageDisplayName} that can be answered Yes/No",
+  "description": "SEO description in ${languageDisplayName} (max 160 chars)",
+  "options": ["Yes option in ${languageDisplayName}", "No option in ${languageDisplayName}"],
   "keywords": ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"],
   "expirationDate": "ISO 8601 date when this prediction will be resolved",
   "category": "${category}"
@@ -92,7 +99,7 @@ Rules:
 2. Set a realistic expiration date based on the event
 3. Keywords should be relevant for SEO
 4. Slug must be lowercase, use hyphens, no special characters
-5. All text content must be in ${langName} except slug and keywords`;
+5. All text content must be in ${languageDisplayName} except slug and keywords`;
 
   const userPrompt = `News Title: ${newsTitle}
 News Description: ${newsDescription}
@@ -120,6 +127,13 @@ Generate a prediction topic based on this news.`;
   }
 }
 
+/**
+ * Generate prediction topics with both Portuguese and Spanish translations
+ * @param newsTitle - Title of the news article
+ * @param newsDescription - Description/summary of the news
+ * @param category - Topic category
+ * @returns Object with pt and es topics, or null if generation fails
+ */
 export async function generateTopicsForLatam(
   newsTitle: string,
   newsDescription: string,

@@ -24,7 +24,7 @@ const topics = allTopics
 const categories = ['all', 'politics', 'economy', 'tech', 'entertainment', 'sports'] as const;
 ---
 
-<Base title={t('topics.title', lang)} lang={lang}>
+<Base title={t('topics.title', lang)} lang={lang} slug="topics" availableLanguages={siteConfig.locales as unknown as Locale[]}>
   <section class="py-16">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- Header -->

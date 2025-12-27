@@ -1,6 +1,6 @@
 import { collect } from './collect';
 import { generate } from './generate';
-import { getUsageCount } from './brave-client';
+import { getUsageCount, getMonthlyLimit } from './brave-client';
 import { type Region } from './regions';
 
 interface PipelineResult {
@@ -11,6 +11,45 @@ interface PipelineResult {
   duration: number;
 }
 
+/**
+ * Log pipeline summary report
+ */
+function logPipelineSummary(
+  collected: Map<Region, number>,
+  generated: number,
+  skipped: number,
+  braveApiUsage: number,
+  duration: number
+): void {
+  const monthlyLimit = getMonthlyLimit();
+  let totalCollected = 0;
+
+  console.log('\n' + '═'.repeat(60));
+  console.log('📊 PIPELINE COMPLETE');
+  console.log('═'.repeat(60));
+  console.log('\n📥 Collection Results:');
+  for (const [region, count] of collected) {
+    console.log(`   ${region}: ${count} topics`);
+    totalCollected += count;
+  }
+  console.log(`   Total: ${totalCollected} topics`);
+
+  console.log('\n📝 Generation Results:');
+  console.log(`   Generated: ${generated} new topics`);
+  console.log(`   Skipped: ${skipped} duplicates`);
+
+  console.log('\n📈 API Usage:');
+  console.log(`   Brave API calls: ${braveApiUsage}`);
+  console.log(`   Monthly limit: ${monthlyLimit}`);
+  console.log(`   Usage: ${((braveApiUsage / monthlyLimit) * 100).toFixed(1)}%`);
+
+  console.log('\n⏱️  Duration:', duration, 'seconds');
+  console.log('═'.repeat(60));
+}
+
+/**
+ * Run the complete SEO pipeline: collect topics from news and generate content
+ */
 export async function runPipeline(regions?: Region[]): Promise<PipelineResult> {
   const startTime = Date.now();
   
@@ -37,29 +76,7 @@ export async function runPipeline(regions?: Region[]): Promise<PipelineResult> {
   const duration = Math.round((Date.now() - startTime) / 1000);
   const braveApiUsage = getUsageCount();
 
-  // Summary
-  console.log('\n' + '═'.repeat(60));
-  console.log('📊 PIPELINE COMPLETE');
-  console.log('═'.repeat(60));
-  console.log('\n📥 Collection Results:');
-  let totalCollected = 0;
-  for (const [region, count] of collected) {
-    console.log(`   ${region}: ${count} topics`);
-    totalCollected += count;
-  }
-  console.log(`   Total: ${totalCollected} topics`);
-
-  console.log('\n📝 Generation Results:');
-  console.log(`   Generated: ${generated} new topics`);
-  console.log(`   Skipped: ${skipped} duplicates`);
-
-  console.log('\n📈 API Usage:');
-  console.log(`   Brave API calls: ${braveApiUsage}`);
-  console.log(`   Monthly limit: 2000`);
-  console.log(`   Usage: ${((braveApiUsage / 2000) * 100).toFixed(1)}%`);
-
-  console.log('\n⏱️  Duration:', duration, 'seconds');
-  console.log('═'.repeat(60));
+  logPipelineSummary(collected, generated, skipped, braveApiUsage, duration);
 
   return {
     collected,

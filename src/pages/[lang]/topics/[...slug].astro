@@ -1,6 +1,7 @@
 ---
 import Base from '@/layouts/Base.astro';
 import CTA from '@/components/CTA.astro';
+import TopicCard from '@/components/TopicCard.astro';
 import StructuredData from '@/components/StructuredData.astro';
 import { siteConfig, type Locale } from '@/config/site';
 import { t } from '@/i18n/ui';
@@ -27,6 +28,9 @@ export async function getStaticPaths() {
   return paths;
 }
 
+// Get all topics for related topics section (Astro caches getCollection calls)
+const allTopics = await getCollection('topics');
+
 interface Props {
   topic: Topic;
 }
@@ -45,6 +49,23 @@ const breadcrumbs = [
   { name: t('nav.topics', lang), url: `${siteConfig.url}/${lang}/topics/` },
   { name: localeContent.title, url: `${siteConfig.url}/${lang}/topics/${topic.slug}` },
 ];
+
+// FAQ schema data - convert topic question to FAQ format
+const faqs = [
+  {
+    question: localeContent.question,
+    answer: `${localeContent.description} Options: ${topic.options.join(' or ')}. Expires: ${new Date(topic.expirationDate).toLocaleDateString('en')}.`
+  }
+];
+
+// Related topics - same category, different topic
+const relatedTopics = allTopics
+  .filter(t => 
+    t.data.slug !== topic.slug && 
+    t.data.category === topic.category && 
+    t.data.locale[lang]
+  )
+  .slice(0, 3);
 
 const categoryColors: Record<string, string> = {
   politics: 'bg-rose-500/20 text-rose-400',
@@ -79,6 +100,7 @@ const categoryColors: Record<string, string> = {
     keywords={topic.keywords}
   />
   <StructuredData type="BreadcrumbList" breadcrumbs={breadcrumbs} />
+  <StructuredData type="FAQPage" faqs={faqs} />
   
   <article class="py-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -183,13 +205,27 @@ const categoryColors: Record<string, string> = {
       {topic.keywords?.length > 0 && (
         <div class="mb-12">
           <h3 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-accent)] mb-4">
-            Related Topics
+            Keywords
           </h3>
           <div class="flex flex-wrap gap-2">
             {topic.keywords.map((keyword: string) => (
               <span class="px-3 py-1 rounded-full bg-[var(--color-surface-elevated)] border border-[var(--color-border)] text-sm">
                 {keyword}
               </span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <!-- Related Topics -->
+      {relatedTopics.length > 0 && (
+        <div class="mb-12">
+          <h3 class="text-sm font-semibold uppercase tracking-wider text-[var(--color-accent)] mb-6">
+            {t('topics.related', lang) || 'Related Predictions'}
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            {relatedTopics.map((relatedTopic) => (
+              <TopicCard topic={relatedTopic.data} locale={lang} />
             ))}
           </div>
         </div>

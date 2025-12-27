@@ -159,7 +159,7 @@ function getSchema() {
 }
 
 const schema = getSchema();
-const cleanSchema = schema ? JSON.parse(JSON.stringify(schema, (_, v) => v === undefined ? undefined : v)) : null;
+const cleanSchema = schema ? JSON.parse(JSON.stringify(schema)) : null;
 ---
 
 {cleanSchema && (

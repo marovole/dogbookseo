@@ -27,7 +27,7 @@ const {
 
 const fullTitle = `${title} | ${siteConfig.name}`;
 const canonicalUrl = `${siteConfig.url}/${lang}${slug ? `/${slug}` : ''}`;
-const ogImage = image || `${siteConfig.url}/og-default.png`;
+const ogImage = image || `${siteConfig.url}/og-default.svg`;
 
 function getAlternateUrl(locale: Locale): string {
   return `${siteConfig.url}/${locale}${slug ? `/${slug}` : ''}`;

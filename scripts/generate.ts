@@ -1,29 +1,15 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { type Region, type Category } from './regions';
+import { type Region, type Category } from './types';
+import { isValidRegion, isValidCategory, type TopicData } from './types';
 
+/** Tracking data for processed topics */
 interface ProcessedData {
   slugs: string[];
   lastUpdated: string | null;
 }
 
-interface TopicData {
-  slug: string;
-  region: Region;
-  category: Category;
-  locale: Record<string, {
-    title: string;
-    question: string;
-    description: string;
-  }>;
-  options: [string, string];
-  keywords: string[];
-  status: 'active' | 'closed';
-  publishedAt: string;
-  expirationDate: string;
-  source: string;
-}
-
+/** Load processed data from disk */
 function loadProcessedData(): ProcessedData {
   const filepath = path.join(process.cwd(), 'data', 'processed.json');
   
@@ -35,15 +21,21 @@ function loadProcessedData(): ProcessedData {
   return JSON.parse(content);
 }
 
+/** Save processed data to disk */
 function saveProcessedData(data: ProcessedData): void {
   const filepath = path.join(process.cwd(), 'data', 'processed.json');
   fs.writeFileSync(filepath, JSON.stringify(data, null, 2), 'utf-8');
 }
 
+/** Check if a slug has already been processed */
 function isDuplicate(slug: string, processed: ProcessedData): boolean {
   return processed.slugs.includes(slug);
 }
 
+/**
+ * Parse CSV content into array of row objects
+ * Handles quoted fields with embedded commas and escaped quotes
+ */
 function parseCSV(content: string): Record<string, string>[] {
   const lines = content.trim().split('\n');
   if (lines.length < 2) return [];
@@ -78,10 +70,56 @@ function parseCSV(content: string): Record<string, string>[] {
   return rows;
 }
 
+/** Get content directory path for a region/category combination */
 function getContentPath(region: Region, category: Category): string {
   return path.join(process.cwd(), 'src', 'content', 'topics', region, category);
 }
 
+/**
+ * Validate and parse a CSV row into TopicData
+ * @returns TopicData if valid, null if validation fails
+ */
+function parseAndValidateRow(row: Record<string, string>): TopicData | null {
+  const { slug, region, category, locale_json, options, keywords, expirationDate, source } = row;
+
+  if (!slug) {
+    console.log(`      ⚠️  Skipping row with no slug`);
+    return null;
+  }
+
+  if (!isValidRegion(region)) {
+    console.log(`      ⚠️  Invalid region "${region}" for slug: ${slug}`);
+    return null;
+  }
+
+  if (!isValidCategory(category)) {
+    console.log(`      ⚠️  Invalid category "${category}" for slug: ${slug}`);
+    return null;
+  }
+
+  try {
+    return {
+      slug,
+      region,
+      category,
+      locale: JSON.parse(locale_json),
+      options: JSON.parse(options),
+      keywords: JSON.parse(keywords),
+      status: 'active',
+      publishedAt: new Date().toISOString().split('T')[0],
+      expirationDate,
+      source,
+    };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.log(`      ⚠️  Failed to parse JSON fields for slug "${slug}": ${errorMessage}`);
+    return null;
+  }
+}
+
+/**
+ * Generate content files from CSV data
+ */
 async function generateFromCSV(processed: ProcessedData): Promise<{ generated: number; skipped: number }> {
   const rawDir = path.join(process.cwd(), 'data', 'raw');
   let generated = 0;
@@ -102,52 +140,33 @@ async function generateFromCSV(processed: ProcessedData): Promise<{ generated: n
     console.log(`      Found ${rows.length} rows`);
 
     for (const row of rows) {
-      const slug = row.slug;
-
-      if (!slug) {
-        console.log(`      ⚠️  Skipping row with no slug`);
+      const topicData = parseAndValidateRow(row);
+      
+      if (!topicData) {
         continue;
       }
 
-      if (isDuplicate(slug, processed)) {
-        console.log(`      ⏭️  Skipping duplicate: ${slug}`);
+      if (isDuplicate(topicData.slug, processed)) {
+        console.log(`      ⏭️  Skipping duplicate: ${topicData.slug}`);
         skipped++;
         continue;
       }
 
       try {
-        const region = row.region as Region;
-        const category = row.category as Category;
-        const locale = JSON.parse(row.locale_json);
-        const options = JSON.parse(row.options);
-        const keywords = JSON.parse(row.keywords);
-
-        const topicData: TopicData = {
-          slug,
-          region,
-          category,
-          locale,
-          options,
-          keywords,
-          status: 'active',
-          publishedAt: new Date().toISOString().split('T')[0],
-          expirationDate: row.expirationDate,
-          source: row.source,
-        };
-
-        const contentDir = getContentPath(region, category);
+        const contentDir = getContentPath(topicData.region, topicData.category);
         if (!fs.existsSync(contentDir)) {
           fs.mkdirSync(contentDir, { recursive: true });
         }
 
-        const filepath = path.join(contentDir, `${slug}.json`);
+        const filepath = path.join(contentDir, `${topicData.slug}.json`);
         fs.writeFileSync(filepath, JSON.stringify(topicData, null, 2), 'utf-8');
 
-        processed.slugs.push(slug);
+        processed.slugs.push(topicData.slug);
         generated++;
-        console.log(`      ✅ Generated: ${slug}`);
+        console.log(`      ✅ Generated: ${topicData.slug}`);
       } catch (error) {
-        console.error(`      ❌ Error processing ${slug}: ${(error as Error).message}`);
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        console.error(`      ❌ Error writing ${topicData.slug}: ${errorMessage}`);
       }
     }
   }
@@ -155,6 +174,9 @@ async function generateFromCSV(processed: ProcessedData): Promise<{ generated: n
   return { generated, skipped };
 }
 
+/**
+ * Main generation function - processes CSV files and generates content
+ */
 export async function generate(): Promise<{ generated: number; skipped: number }> {
   console.log('🔄 Starting topic generation from data sources');
 

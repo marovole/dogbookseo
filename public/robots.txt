@@ -5,9 +5,13 @@ Allow: /
 # Disallow internal paths
 Disallow: /api/
 Disallow: /_astro/
+Disallow: /sw.js
 
 # Crawl-delay for politeness
 Crawl-delay: 1
+
+# Host directive
+Host: https://dogbooks.co
 
 # Sitemaps
 Sitemap: https://dogbooks.co/sitemap-index.xml

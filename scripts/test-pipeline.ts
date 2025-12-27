@@ -367,7 +367,7 @@ const SAMPLE_TOPICS: Record<Region, Array<{
 };
 
 async function generateTestTopics() {
-  const processed = { slugs: [] as string[], lastUpdated: null };
+  const processed: { slugs: string[]; lastUpdated: string | null } = { slugs: [], lastUpdated: null };
   let totalGenerated = 0;
 
   console.log('🧪 TEST PIPELINE: Generating sample topics');

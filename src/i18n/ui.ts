@@ -20,6 +20,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     'topics.filter.entertainment': 'Entertainment',
     'topics.filter.sports': 'Sports',
     'topics.empty': 'No topics available',
+    'topics.related': 'Related Predictions',
     
     // Topic card
     'topic.predict': 'Make Prediction',
@@ -61,6 +62,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     'topics.filter.entertainment': '娛樂',
     'topics.filter.sports': '體育',
     'topics.empty': '暫無話題',
+    'topics.related': '相關預測',
     
     'topic.predict': '立即預測',
     'topic.status.active': '進行中',
@@ -97,6 +99,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     'topics.filter.entertainment': 'मनोरंजन',
     'topics.filter.sports': 'खेल',
     'topics.empty': 'कोई विषय उपलब्ध नहीं',
+    'topics.related': 'संबंधित पूर्वानुमान',
     
     'topic.predict': 'भविष्यवाणी करें',
     'topic.status.active': 'सक्रिय',
@@ -133,6 +136,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     'topics.filter.entertainment': 'Entretenimento',
     'topics.filter.sports': 'Esportes',
     'topics.empty': 'Nenhum tópico disponível',
+    'topics.related': 'Previsões Relacionadas',
     
     'topic.predict': 'Fazer Previsão',
     'topic.status.active': 'Ativo',
@@ -169,6 +173,7 @@ export const ui: Record<Locale, Record<string, string>> = {
     'topics.filter.entertainment': 'Entretenimiento',
     'topics.filter.sports': 'Deportes',
     'topics.empty': 'No hay temas disponibles',
+    'topics.related': 'Predicciones Relacionadas',
     
     'topic.predict': 'Hacer Predicción',
     'topic.status.active': 'Activo',
