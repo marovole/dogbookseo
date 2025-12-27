@@ -3,8 +3,8 @@ import * as path from 'path';
 import { searchWithRetry } from './brave-client';
 import { generateTopicFromNews, generateTopicsForLatam } from './llm-client';
 import { regions, type Region, type Category } from './regions';
-import type { CollectedTopic, BraveSearchResult, CategoryConfig } from './types';
-import { API_THROTTLE_DELAY_MS } from './constants';
+import type { CollectedTopic, BraveSearchResult, CategoryConfig, GeneratedTopic } from './types';
+import { API_THROTTLE_DELAY_MS, DEFAULT_SEARCH_COUNT } from './constants';
 
 /**
  * Extract hostname from URL safely
@@ -21,7 +21,7 @@ function extractHostname(url: string): string {
  * Create a collected topic from LATAM generation result
  */
 function createLatamTopic(
-  latamTopics: { pt: any; es: any },
+  latamTopics: { pt: GeneratedTopic; es: GeneratedTopic },
   region: Region,
   category: Category,
   sourceUrl: string
@@ -53,7 +53,7 @@ function createLatamTopic(
  * Create a collected topic from standard generation result
  */
 function createStandardTopic(
-  topic: any,
+  topic: GeneratedTopic,
   region: Region,
   category: Category,
   targetLang: string,
@@ -88,7 +88,7 @@ async function processQuery(
   targetLang: string
 ): Promise<CollectedTopic | null> {
   console.log(`      🔍 Searching: "${query}"`);
-  const results = await searchWithRetry(query, 3, searchLang);
+  const results = await searchWithRetry(query, DEFAULT_SEARCH_COUNT, searchLang);
 
   if (results.length === 0) {
     console.log(`      ⚠️  No results found`);

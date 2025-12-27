@@ -13,11 +13,13 @@ const STATIC_ASSETS = [
 
 // Install event - cache static assets
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(STATIC_ASSETS);
-    })
-  );
+event.waitUntil(
+  caches.open(CACHE_NAME).then((cache) => {
+    return cache.addAll(STATIC_ASSETS).catch(err => {
+      console.error('Failed to cache static assets:', err);
+    });
+  })
+);
   self.skipWaiting();
 });
 

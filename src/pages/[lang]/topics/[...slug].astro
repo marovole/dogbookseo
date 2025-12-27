@@ -54,7 +54,7 @@ const breadcrumbs = [
 const faqs = [
   {
     question: localeContent.question,
-    answer: `${localeContent.description} Options: ${topic.options.join(' or ')}. Expires: ${new Date(topic.expirationDate).toLocaleDateString('en')}.`
+    answer: `${localeContent.description} Options: ${topic.options.join(' or ')}. Expires: ${new Date(topic.expirationDate).toLocaleDateString(lang)}.`
   }
 ];
 
@@ -87,20 +87,21 @@ const categoryColors: Record<string, string> = {
   availableLanguages={availableLanguages}
   category={topic.category}
 >
-  <!-- Structured Data -->
-  <StructuredData 
-    type="Article"
-    title={localeContent.title}
-    description={localeContent.description}
-    publishedAt={topic.publishedAt}
-    image={topic.image}
-    lang={lang}
-    slug={`topics/${topic.slug}`}
-    category={topic.category}
-    keywords={topic.keywords}
-  />
-  <StructuredData type="BreadcrumbList" breadcrumbs={breadcrumbs} />
-  <StructuredData type="FAQPage" faqs={faqs} />
+  <slot slot="head">
+    <StructuredData 
+      type="Article"
+      title={localeContent.title}
+      description={localeContent.description}
+      publishedAt={topic.publishedAt}
+      image={topic.image}
+      lang={lang}
+      slug={`topics/${topic.slug}`}
+      category={topic.category}
+      keywords={topic.keywords}
+    />
+    <StructuredData type="BreadcrumbList" breadcrumbs={breadcrumbs} />
+    <StructuredData type="FAQPage" faqs={faqs} />
+  </slot>
   
   <article class="py-16">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
