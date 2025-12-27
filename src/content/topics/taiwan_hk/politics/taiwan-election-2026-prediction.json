@@ -1,0 +1,26 @@
+{
+  "slug": "taiwan-election-2026-prediction",
+  "category": "politics",
+  "locale": {
+    "zh-TW": {
+      "title": "2026年台灣選舉預測",
+      "question": "國民黨能否贏得2026年台灣地方選舉?",
+      "description": "預測2026年台灣地方選舉的結果。"
+    }
+  },
+  "options": [
+    "是",
+    "否"
+  ],
+  "keywords": [
+    "台灣",
+    "選舉",
+    "2026",
+    "政治"
+  ],
+  "expirationDate": "2026-11-30T00:00:00Z",
+  "source": "中央社",
+  "region": "taiwan_hk",
+  "status": "active",
+  "publishedAt": "2025-12-27"
+}

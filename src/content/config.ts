@@ -15,7 +15,7 @@ const topicSchema = z.object({
   keywords: z.array(z.string()),
   
   status: z.enum(['active', 'closed']).default('active'),
-  publishedAt: z.coerce.date(),
+  publishedAt: z.string(),
   expirationDate: z.string(),
   source: z.string(),
   image: z.string().optional(),

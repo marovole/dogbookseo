@@ -1,0 +1,31 @@
+{
+  "slug": "brazil-economy-2025-growth",
+  "category": "economy",
+  "locale": {
+    "pt": {
+      "title": "Brasil Crescimento Econômico 2025",
+      "question": "O Brasil terá crescimento econômico acima de 3% em 2025?",
+      "description": "Preveja o crescimento do PIB brasileiro em 2025."
+    },
+    "es": {
+      "title": "Crecimiento Económico de Brasil 2025",
+      "question": "¿El crecimiento económico de Brasil será superior a 3% en 2025?",
+      "description": "Pronostique el crecimiento económico de Brasil en 2025."
+    }
+  },
+  "options": [
+    "Sim/Sí",
+    "Não/No"
+  ],
+  "keywords": [
+    "Brasil",
+    "Economia",
+    "PIB",
+    "Crescimento"
+  ],
+  "expirationDate": "2025-12-31T00:00:00Z",
+  "source": "IBGE",
+  "region": "latam",
+  "status": "active",
+  "publishedAt": "2025-12-27"
+}

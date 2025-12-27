@@ -9,7 +9,10 @@
     "preview": "astro preview",
     "collect": "tsx scripts/collect.ts",
     "generate": "tsx scripts/generate.ts",
-    "pipeline": "tsx scripts/pipeline.ts"
+    "pipeline": "tsx scripts/pipeline.ts",
+    "test:pipeline": "tsx scripts/test-pipeline.ts",
+    "test:build": "npm run test:pipeline && npm run build",
+    "verify": "tsx scripts/verify-pipeline.ts"
   },
   "keywords": [
     "astro",

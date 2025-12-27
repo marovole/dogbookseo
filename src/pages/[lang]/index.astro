@@ -21,7 +21,7 @@ const allTopics = await getCollection('topics');
 const topics = allTopics
   .filter(topic => regions.includes(topic.data.region) && topic.data.locale[lang])
   .sort((a, b) => new Date(b.data.publishedAt).getTime() - new Date(a.data.publishedAt).getTime())
-  .slice(0, 6);
+  .slice(0, 12);
 ---
 
 <Base title={t('nav.home', lang)} lang={lang}>

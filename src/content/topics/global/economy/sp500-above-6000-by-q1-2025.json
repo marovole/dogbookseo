@@ -1,0 +1,26 @@
+{
+  "slug": "sp500-above-6000-by-q1-2025",
+  "category": "economy",
+  "locale": {
+    "en": {
+      "title": "S&P 500 Above 6000 by Q1 2025",
+      "question": "Will the S&P 500 exceed 6000 points by end of Q1 2025?",
+      "description": "Predict if the S&P 500 stock index will break above 6000 in the first quarter of 2025."
+    }
+  },
+  "options": [
+    "Yes",
+    "No"
+  ],
+  "keywords": [
+    "Stock Market",
+    "S&P 500",
+    "Economy",
+    "Investment"
+  ],
+  "expirationDate": "2025-03-31T00:00:00Z",
+  "source": "Bloomberg",
+  "region": "global",
+  "status": "active",
+  "publishedAt": "2025-12-27"
+}

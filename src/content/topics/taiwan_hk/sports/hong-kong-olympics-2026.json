@@ -1,0 +1,26 @@
+{
+  "slug": "hong-kong-olympics-2026",
+  "category": "sports",
+  "locale": {
+    "zh-TW": {
+      "title": "2026年亞運會獎牌預測",
+      "question": "台灣能否在亞運會獲得超過10面金牌?",
+      "description": "預測台灣在2026年亞運會的獎牌表現。"
+    }
+  },
+  "options": [
+    "是",
+    "否"
+  ],
+  "keywords": [
+    "亞運會",
+    "運動會",
+    "台灣",
+    "獎牌"
+  ],
+  "expirationDate": "2026-10-31T00:00:00Z",
+  "source": "OCA",
+  "region": "taiwan_hk",
+  "status": "active",
+  "publishedAt": "2025-12-27"
+}

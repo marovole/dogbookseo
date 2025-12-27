@@ -1,0 +1,26 @@
+{
+  "slug": "taiwan-drama-hit-2025",
+  "category": "entertainment",
+  "locale": {
+    "zh-TW": {
+      "title": "2025年台劇收視爆款",
+      "question": "2025年會有收視超過2的台劇嗎?",
+      "description": "預測2025年是否會出現收視超過2%的熱門台灣電視劇。"
+    }
+  },
+  "options": [
+    "是",
+    "否"
+  ],
+  "keywords": [
+    "台劇",
+    "電視",
+    "台灣",
+    "2025"
+  ],
+  "expirationDate": "2025-12-31T00:00:00Z",
+  "source": "三立",
+  "region": "taiwan_hk",
+  "status": "active",
+  "publishedAt": "2025-12-27"
+}

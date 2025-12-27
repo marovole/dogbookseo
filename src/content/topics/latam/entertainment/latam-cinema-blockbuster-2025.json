@@ -1,0 +1,30 @@
+{
+  "slug": "latam-cinema-blockbuster-2025",
+  "category": "entertainment",
+  "locale": {
+    "pt": {
+      "title": "Cinema Latino Sucesso 2025",
+      "question": "Haverá um filme latino-americano no top 10 de bilheteria global em 2025?",
+      "description": "Preveja se um filme latino-americano fará sucesso global em 2025."
+    },
+    "es": {
+      "title": "Éxito del Cine Latinoamericano 2025",
+      "question": "¿Habrá una película latinoamericana en el top 10 de taquilla global en 2025?",
+      "description": "Pronostique el éxito global del cine latinoamericano en 2025."
+    }
+  },
+  "options": [
+    "Sim/Sí",
+    "Não/No"
+  ],
+  "keywords": [
+    "Cinema",
+    "Filme",
+    "América Latina"
+  ],
+  "expirationDate": "2025-12-31T00:00:00Z",
+  "source": "Box Office",
+  "region": "latam",
+  "status": "active",
+  "publishedAt": "2025-12-27"
+}

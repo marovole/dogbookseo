@@ -1,0 +1,30 @@
+{
+  "slug": "libertadores-2025-winner",
+  "category": "sports",
+  "locale": {
+    "pt": {
+      "title": "Copa Libertadores 2025 Vencedor",
+      "question": "Qual time vencerá a Copa Libertadores 2025?",
+      "description": "Preveja o vencedor da Copa Libertadores 2025."
+    },
+    "es": {
+      "title": "Ganador de la Copa Libertadores 2025",
+      "question": "¿Quién ganará la Copa Libertadores 2025?",
+      "description": "Pronostique el ganador de la Copa Libertadores 2025."
+    }
+  },
+  "options": [
+    "Time Brasileiro",
+    "Time Argentino/Outro"
+  ],
+  "keywords": [
+    "Futebol",
+    "Copa Libertadores",
+    "América do Sul"
+  ],
+  "expirationDate": "2025-11-30T00:00:00Z",
+  "source": "CONMEBOL",
+  "region": "latam",
+  "status": "active",
+  "publishedAt": "2025-12-27"
+}

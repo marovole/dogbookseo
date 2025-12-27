@@ -82,12 +82,8 @@ function getContentPath(region: Region, category: Category): string {
   return path.join(process.cwd(), 'src', 'content', 'topics', region, category);
 }
 
-export async function generate(): Promise<{ generated: number; skipped: number }> {
-  console.log('🔄 Starting topic generation from CSV files');
-
+async function generateFromCSV(processed: ProcessedData): Promise<{ generated: number; skipped: number }> {
   const rawDir = path.join(process.cwd(), 'data', 'raw');
-  const processed = loadProcessedData();
-  
   let generated = 0;
   let skipped = 0;
 
@@ -100,10 +96,10 @@ export async function generate(): Promise<{ generated: number; skipped: number }
   console.log(`   📁 Found ${csvFiles.length} CSV files`);
 
   for (const csvFile of csvFiles) {
-    console.log(`\n   📄 Processing: ${csvFile}`);
+    console.log(`\n   📄 Processing CSV: ${csvFile}`);
     const content = fs.readFileSync(path.join(rawDir, csvFile), 'utf-8');
     const rows = parseCSV(content);
-    console.log(`      Found ${rows.length} rows in CSV`);
+    console.log(`      Found ${rows.length} rows`);
 
     for (const row of rows) {
       const slug = row.slug;
@@ -156,14 +152,25 @@ export async function generate(): Promise<{ generated: number; skipped: number }
     }
   }
 
+  return { generated, skipped };
+}
+
+export async function generate(): Promise<{ generated: number; skipped: number }> {
+  console.log('🔄 Starting topic generation from data sources');
+
+  const processed = loadProcessedData();
+  
+  // Generate from CSV files (new data from pipeline)
+  const { generated: csvGenerated, skipped: csvSkipped } = await generateFromCSV(processed);
+
   processed.lastUpdated = new Date().toISOString();
   saveProcessedData(processed);
 
   console.log(`\n📊 Generation Summary:`);
-  console.log(`   Generated: ${generated}`);
-  console.log(`   Skipped (duplicates): ${skipped}`);
+  console.log(`   Generated: ${csvGenerated}`);
+  console.log(`   Skipped (duplicates): ${csvSkipped}`);
 
-  return { generated, skipped };
+  return { generated: csvGenerated, skipped: csvSkipped };
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

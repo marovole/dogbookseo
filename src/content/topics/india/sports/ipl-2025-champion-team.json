@@ -1,0 +1,26 @@
+{
+  "slug": "ipl-2025-champion-team",
+  "category": "sports",
+  "locale": {
+    "hi": {
+      "title": "IPL 2025 चैंपियन",
+      "question": "IPL 2025 का चैंपियन कौन सा टीम होगा?",
+      "description": "IPL 2025 टूर्नामेंट के विजेता की भविष्यवाणी करें।"
+    }
+  },
+  "options": [
+    "Mumbai Indians",
+    "अन्य टीम"
+  ],
+  "keywords": [
+    "IPL",
+    "क्रिकेट",
+    "भारत",
+    "2025"
+  ],
+  "expirationDate": "2025-05-31T00:00:00Z",
+  "source": "IPL",
+  "region": "india",
+  "status": "active",
+  "publishedAt": "2025-12-27"
+}

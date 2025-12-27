@@ -1,0 +1,27 @@
+{
+  "slug": "super-bowl-lvix-winner-2025",
+  "category": "sports",
+  "locale": {
+    "en": {
+      "title": "Super Bowl LVIX 2025 Winner",
+      "question": "Will the Kansas City Chiefs win Super Bowl LVIX?",
+      "description": "Predict the winner of Super Bowl LVIX featuring the AFC and NFC champions."
+    }
+  },
+  "options": [
+    "Chiefs Win",
+    "Other Team Wins"
+  ],
+  "keywords": [
+    "Super Bowl",
+    "NFL",
+    "Chiefs",
+    "Kansas City",
+    "2025"
+  ],
+  "expirationDate": "2025-02-10T00:00:00Z",
+  "source": "ESPN",
+  "region": "global",
+  "status": "active",
+  "publishedAt": "2025-12-27"
+}

@@ -1,0 +1,26 @@
+{
+  "slug": "nba-finals-2025-champion",
+  "category": "sports",
+  "locale": {
+    "en": {
+      "title": "NBA Finals 2025 Champion",
+      "question": "Which team will win the NBA Finals 2025?",
+      "description": "Predict the winner of the 2025 NBA Finals championship."
+    }
+  },
+  "options": [
+    "Lakers/Celtics Win",
+    "Other Team Wins"
+  ],
+  "keywords": [
+    "NBA",
+    "Basketball",
+    "Finals",
+    "2025"
+  ],
+  "expirationDate": "2025-06-30T00:00:00Z",
+  "source": "ESPN",
+  "region": "global",
+  "status": "active",
+  "publishedAt": "2025-12-27"
+}

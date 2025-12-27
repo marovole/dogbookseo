@@ -1,0 +1,26 @@
+{
+  "slug": "openai-gpt5-announcement-2025",
+  "category": "tech",
+  "locale": {
+    "en": {
+      "title": "OpenAI GPT-5 Announcement 2025",
+      "question": "Will OpenAI announce GPT-5 before end of 2025?",
+      "description": "Predict whether OpenAI will announce the next generation GPT-5 model in 2025."
+    }
+  },
+  "options": [
+    "Yes",
+    "No"
+  ],
+  "keywords": [
+    "AI",
+    "OpenAI",
+    "GPT",
+    "Artificial Intelligence"
+  ],
+  "expirationDate": "2025-12-31T00:00:00Z",
+  "source": "Tech News",
+  "region": "global",
+  "status": "active",
+  "publishedAt": "2025-12-27"
+}

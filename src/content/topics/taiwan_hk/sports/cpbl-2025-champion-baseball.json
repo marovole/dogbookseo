@@ -1,0 +1,26 @@
+{
+  "slug": "cpbl-2025-champion-baseball",
+  "category": "sports",
+  "locale": {
+    "zh-TW": {
+      "title": "中華職棒2025年冠軍",
+      "question": "2025年中華職棒冠軍會是誰?",
+      "description": "預測2025年中華職棒聯賽的冠軍隊伍。"
+    }
+  },
+  "options": [
+    "統一獅",
+    "其他隊伍"
+  ],
+  "keywords": [
+    "棒球",
+    "中華職棒",
+    "台灣",
+    "2025"
+  ],
+  "expirationDate": "2025-10-31T00:00:00Z",
+  "source": "CPBL",
+  "region": "taiwan_hk",
+  "status": "active",
+  "publishedAt": "2025-12-27"
+}

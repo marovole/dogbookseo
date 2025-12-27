@@ -1,0 +1,26 @@
+{
+  "slug": "india-t20-world-cup-2025",
+  "category": "sports",
+  "locale": {
+    "hi": {
+      "title": "भारत T20 विश्व कप 2025",
+      "question": "क्या भारत T20 विश्व कप 2025 जीतेगा?",
+      "description": "भारत T20 विश्व कप 2025 जीतने की भविष्यवाणी करें।"
+    }
+  },
+  "options": [
+    "हाँ",
+    "नहीं"
+  ],
+  "keywords": [
+    "T20",
+    "क्रिकेट",
+    "भारत",
+    "2025"
+  ],
+  "expirationDate": "2025-06-30T00:00:00Z",
+  "source": "BCCI",
+  "region": "india",
+  "status": "active",
+  "publishedAt": "2025-12-27"
+}

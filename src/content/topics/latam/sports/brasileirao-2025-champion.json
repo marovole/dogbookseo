@@ -1,23 +1,31 @@
 {
   "slug": "brasileirao-2025-champion",
-  "region": "latam",
   "category": "sports",
   "locale": {
     "pt": {
-      "title": "Campeonato Brasileiro 2025",
-      "question": "O Flamengo será campeão do Brasileirão 2025?",
-      "description": "Faça sua previsão sobre o campeão do Campeonato Brasileiro Série A 2025."
+      "title": "Campeonato Brasileiro 2025 Campeão",
+      "question": "Qual time vencerá o Campeonato Brasileiro 2025?",
+      "description": "Preveja o campeão do Campeonato Brasileiro de Futebol 2025."
     },
     "es": {
-      "title": "Campeonato Brasileño 2025",
-      "question": "¿Flamengo será campeón del Brasileirão 2025?",
-      "description": "Haz tu predicción sobre el campeón del Campeonato Brasileño Serie A 2025."
+      "title": "Campeón del Brasileirão 2025",
+      "question": "¿Cuál será el campeón del Brasileirão 2025?",
+      "description": "Pronostique el campeón del Campeonato Brasileño 2025."
     }
   },
-  "options": ["Sim/Sí", "Não/No"],
-  "keywords": ["Brasileirão", "Flamengo", "Futebol", "2025", "Campeonato Brasileiro"],
+  "options": [
+    "Flamengo/São Paulo",
+    "Outro time"
+  ],
+  "keywords": [
+    "Futebol",
+    "Brasil",
+    "Campeonato Brasileiro",
+    "2025"
+  ],
+  "expirationDate": "2025-11-30T00:00:00Z",
+  "source": "CBF",
+  "region": "latam",
   "status": "active",
-  "publishedAt": "2025-12-27",
-  "expirationDate": "2025-12-08T23:59:00Z",
-  "source": "Globo Esporte"
+  "publishedAt": "2025-12-27"
 }

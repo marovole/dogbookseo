@@ -1,0 +1,26 @@
+{
+  "slug": "bitcoin-20000-by-2025-end",
+  "category": "economy",
+  "locale": {
+    "en": {
+      "title": "Bitcoin Above $20,000 by End of 2025",
+      "question": "Will Bitcoin price exceed $20,000 by December 31, 2025?",
+      "description": "Predict if Bitcoin will reach a price above $20,000 by the end of 2025."
+    }
+  },
+  "options": [
+    "Yes",
+    "No"
+  ],
+  "keywords": [
+    "Bitcoin",
+    "Cryptocurrency",
+    "Crypto",
+    "Digital Asset"
+  ],
+  "expirationDate": "2025-12-31T00:00:00Z",
+  "source": "CoinMarketCap",
+  "region": "global",
+  "status": "active",
+  "publishedAt": "2025-12-27"
+}
