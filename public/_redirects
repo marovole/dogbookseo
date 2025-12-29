@@ -1,0 +1,3 @@
+# Cloudflare Pages / Netlify redirects
+# Root to default locale (instant 301 redirect at edge)
+/ /en/ 301

@@ -1,4 +1,8 @@
 ---
+/**
+ * Fallback redirect for environments that don't support _redirects file.
+ * Cloudflare Pages / Netlify will use _redirects for instant 301 redirect at edge.
+ */
 import { siteConfig } from '@/config/site';
 
 const redirectUrl = `/${siteConfig.defaultLocale}/`;
@@ -9,13 +13,12 @@ const redirectUrl = `/${siteConfig.defaultLocale}/`;
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="refresh" content={`0;url=${redirectUrl}`} />
-    <link rel="canonical" href={redirectUrl} />
+    <meta name="robots" content="noindex" />
+    <link rel="canonical" href={`${siteConfig.url}${redirectUrl}`} />
     <title>Redirecting...</title>
-  </head>
-  <body>
-    <p>Redirecting to <a href={redirectUrl}>{redirectUrl}</a>...</p>
     <script define:vars={{ redirectUrl }}>
-      window.location.href = redirectUrl;
+      window.location.replace(redirectUrl);
     </script>
-  </body>
+  </head>
+  <body></body>
 </html>
