@@ -85,10 +85,10 @@ function getSchema() {
     case 'Article':
       return {
         '@context': 'https://schema.org',
-        '@type': 'Article',
+        '@type': 'NewsArticle',
         headline: title,
         description: description,
-        image: image || `${siteConfig.url}/og-default.svg`,
+        image: [image || `${siteConfig.url}/og-default.svg`],
         datePublished: publishedAt,
         dateModified: modifiedAt || publishedAt,
         inLanguage: lang,

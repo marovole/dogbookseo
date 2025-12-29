@@ -44,7 +44,7 @@ const currentYear = new Date().getFullYear();
             <a 
               href={siteConfig.appUrl}
               target="_blank"
-              rel="noopener noreferrer"
+              rel="noopener noreferrer nofollow"
               class="text-sm text-[var(--color-paper)] opacity-70 hover:opacity-100 hover:text-[var(--color-accent)] transition-colors"
             >
               {t('cta.play', lang)}
@@ -61,7 +61,7 @@ const currentYear = new Date().getFullYear();
         <a 
           href={siteConfig.appUrl}
           target="_blank"
-          rel="noopener noreferrer"
+          rel="noopener noreferrer nofollow"
           class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--color-surface-elevated)] border border-[var(--color-border)] hover:border-[var(--color-accent)] transition-colors group"
         >
           <span class="text-sm font-medium">{t('nav.launchApp', lang)}</span>
